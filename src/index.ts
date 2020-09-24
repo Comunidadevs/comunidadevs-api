@@ -1,8 +1,6 @@
-import express from 'express';
-// rest of the code remains same
-const app = express();
-const PORT = 8000;
-app.get('/', (_req, res) => res.send('Express + TypeScript Server'));
-app.listen(PORT, () => {
-  console.log(`⚡️[server]: Server is running at https://localhost:${PORT}`);
-});
+import { HTTPServer } from './servers/http';
+import config from './config';
+
+const { env } = config;
+const http = new HTTPServer(env.PORT);
+http.initServer();
