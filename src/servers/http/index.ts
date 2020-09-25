@@ -1,4 +1,5 @@
 import express from 'express';
+import routes from './routes';
 
 export class HTTPServer {
   private app: express.Application;
@@ -11,6 +12,8 @@ export class HTTPServer {
   }
 
   public initServer(): void {
+    this.app.use('/organizers', routes.organizers);
+    this.app.use('/technologies', routes.technolgies);
     this.app.listen(this.port, () => {
       console.log(`⚡️[server]: Server is running at https://localhost:${this.port}`);
     });

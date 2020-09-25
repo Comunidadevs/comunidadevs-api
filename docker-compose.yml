@@ -1,0 +1,12 @@
+version: '3'
+services:
+  api:
+    image: comunidadevs-api:latest
+    ports:
+      - '${PORT_API}:${PORT_API}'
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: test
+      MONGO_INITDB_ROOT_PASSWORD: test
