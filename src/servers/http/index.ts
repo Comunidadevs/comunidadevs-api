@@ -14,6 +14,7 @@ export class HTTPServer {
   public initServer(): void {
     this.app.use('/organizers', routes.organizers);
     this.app.use('/technologies', routes.technolgies);
+    console.log('test');
     this.app.listen(this.port, () => {
       console.log(`⚡️[server]: Server is running at https://localhost:${this.port}`);
     });
