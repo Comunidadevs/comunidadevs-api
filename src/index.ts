@@ -3,7 +3,6 @@ import config from './config';
 import databases from './databases';
 
 const { env } = config;
-const http = new HTTPServer(env.PORT);
 const mongodb = new databases.MongoDatabase(
   env.MONGO_HOST,
   env.MONGO_PORT,
@@ -11,7 +10,6 @@ const mongodb = new databases.MongoDatabase(
   env.MONGO_PASSWORD,
   env.MONGO_DATABASE,
 );
-const connection = await mongodb.initConnection();
-
-console.log('aaa', mongodb.getModels());
+mongodb.initConnection();
+const http = new HTTPServer(env.PORT);
 http.initServer();

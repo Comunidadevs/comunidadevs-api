@@ -1,4 +1,4 @@
-import mongoose, { Mongoose } from 'mongoose';
+import mongoose, { model, Mongoose } from 'mongoose';
 import models from './models';
 
 export class MongoDatabase {
@@ -17,6 +17,8 @@ export class MongoDatabase {
   private AUTHMECHANISM = 'DEFAULT';
 
   private connection!: Mongoose;
+
+  private models: any;
 
   constructor(host: string, port: string, user: string, password: string, database: string) {
     this.host = host;
@@ -42,18 +44,29 @@ export class MongoDatabase {
 
   public async initConnection(): Promise<void> {
     try {
-      this.connection = await mongoose.connect(this.uri, { useNewUrlParser: true });
-      this.connection.connection.on('error', () => {
+      mongoose
+        .connect(this.uri, { useNewUrlParser: true })
+        .then((connection) => {
+          this.models = models(connection);
+          console.log('a', this.models);
+        })
+        .catch((error) => {
+          console.log('connect', error);
+        });
+      // this.models = models(this.connection);
+      /*  this.connection.connection.on('error', () => {
         throw Error('error probando');
       });
+      this.connection.connection.once('open', () => {
+        console.log('connect');
+      }); */
     } catch (error) {
       console.log('e', error);
     }
   }
 
   public getModels(): any | undefined {
-    console.log('con', this.connection);
-    return models(this.connection);
+    return this.models;
   }
 }
 
